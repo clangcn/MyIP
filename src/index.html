@@ -8,15 +8,13 @@
     <link rel="dns-prefetch" href="//www.taobao.com">
     <link rel="dns-prefetch" href="//ipv4.ip.sb">
     <link rel="dns-prefetch" href="//myip.ipip.net">
-    <link rel="dns-prefetch" href="//api.ipify.org">
-    <link rel="dns-prefetch" href="//api.ttt.sh">
+    <link rel="dns-prefetch" href="https://ipapi.co">
     <link rel="dns-prefetch" href="//api.skk.moe">
     <link rel="dns-prefetch" href="//dt.skk.moe">
     <link rel="preconnect" href="https://www.taobao.com">
     <link rel="preconnect" href="https://ipv4.ip.sb">
     <link rel="preconnect" href="https://myip.ipip.net">
-    <link rel="preconnect" href="https://api.ipify.org">
-    <link rel="preconnect" href="https://api.ttt.sh">
+    <link rel="preconnect" href="https://ipapi.co">
     <link rel="preconnect" href="https://api.skk.moe">
     <link rel="preconnect" href="https://dt.skk.moe">
     <link rel="shortcut icon" type="image/ico" href="https://cdn.jsdelivr.net/npm/skx@0.0.1">
@@ -94,7 +92,7 @@
                 <div class="column">
                     <div class="box">
                         <h2 class="sk-text-center sk-text-bold subtitle sk-mb-1">内网 IP 地址</h2>
-                        <p class="sk-text-center sk-text-small">数据来自 WebRTC + 纯真</p>
+                        <p class="sk-text-center sk-text-small">数据来自 WebRTC</p>
                         <hr class="sk-my-2">
                         <div class="ip-body">
                             <div class="sk-text-center">
@@ -111,7 +109,7 @@
                         <hr class="sk-my-2">
                         <div class="ip-body">
                             <div class="sk-text-center">
-                                <p id="ip-ipipnet"></span>
+                                <div id="ip-ipipnet"></div>
                             </div>
                         </div>
                     </div>
@@ -147,12 +145,12 @@
                 <div class="column">
                     <div class="box">
                         <h2 class="sk-text-center sk-text-bold subtitle sk-mb-1">从国外查询</h2>
-                        <p class="sk-text-center sk-text-small">数据来自 ipify + 纯真</p>
+                        <p class="sk-text-center sk-text-small">数据来自 IPAPI</p>
                         <hr class="sk-my-2">
                         <div class="ip-body">
                             <div class="sk-text-center">
-                                <p id="ip-ipify"></p>
-                                <p id="ip-ipify-cz88" class="sk-text-small"></p>
+                                <p id="ip-ipapi"></p>
+                                <p id="ip-ipapi-geo" class="sk-text-small"></p>
                             </div>
                         </div>
                     </div>
@@ -164,7 +162,7 @@
                         <hr class="sk-my-2">
                         <div class="ip-body">
                             <div class="sk-text-center">
-                                <p id="ip-ipify-1"></p>
+                                <p id="ip-ipify"></p>
                                 <p id="ip-ipify-ipip" class="sk-text-small"></p>
                             </div>
                         </div>
@@ -187,7 +185,7 @@
                 </div>
                 <div class="column is-half-mobile">
                     <div class="box">
-                        <h2 class="sk-text-center sk-text-bold subtitle sk-mb-1">网易 163</h2>
+                        <h2 class="sk-text-center sk-text-bold subtitle sk-mb-1">网易云音乐</h2>
                         <p class="sk-text-center sk-text-small">国内网站</p>
                         <hr class="sk-my-2">
                         <div class="http-body">
@@ -226,13 +224,12 @@
     </div>
     <script src="app.js"></script>
     <script src="https://www.taobao.com/help/getip.php"></script>
-    <script src="https://ipv4.ip.sb/addrinfo.php?callback=IP.getIpsbIP"></script>
+    <script src="https://ipv4.ip.sb/addrinfo?callback=IP.getIpsbIP"></script>
     <script>
         window.ga_tid = "UA-122669675-5";
-        window.ga_api = "https://dt.skk.moe/v3/";
-        window.ga_perf_api = "https://dt.skk.moe/v3/p/"
+        window.ga_url = "https://ga.giuem.com";
     </script>
-    <script async src="https://cdn.jsdelivr.net/npm/galib@0.4.0/dist/dt.s.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@giuem/ga-proxy" async></script>
 </body>
 
 </html>

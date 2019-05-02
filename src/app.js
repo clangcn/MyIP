@@ -1,4 +1,5 @@
 const $$ = document;
+let random = parseInt(Math.random() * 100000000);
 let IP = {
     get: (url, type) =>
         fetch(url, { method: 'GET' }).then((resp) => {
@@ -22,12 +23,6 @@ let IP = {
         }).catch(error => {
             throw error;
         }),
-    parseIPCz88: (ip, elID) => {
-        IP.get(`https://api.ttt.sh/ip/qqwry/${ip}?type=addr`, 'text')
-            .then(resp => {
-                $$.getElementById(elID).innerHTML = resp.data;
-            })
-    },
     parseIPIpapi: (ip, elID) => {
         IP.get(`https://api.skk.moe/network/parseIp/v2/${ip}`, 'json')
             .then(resp => {
@@ -38,11 +33,9 @@ let IP = {
         IP.get(`https://api.skk.moe/network/parseIp/ipip/${ip}`, 'json')
             .then(resp => {
                 let x = '';
-                x += (resp.data[0] !== '') ? `${resp.data[0]} ` : '';
-                x += (resp.data[1] !== '') ? `${resp.data[1]} ` : '';
-                x += (resp.data[2] !== '') ? `${resp.data[2]} ` : '';
-                x += (resp.data[3] !== '') ? `${resp.data[3]} ` : '';
-                x += (resp.data[4] !== '') ? `${resp.data[4]} ` : '';
+                for (let i of resp.data) {
+                    x += (i !== '') ? `${i} ` : '';
+                }
                 $$.getElementById(elID).innerHTML = x;
                 //$$.getElementById(elID).innerHTML = `${resp.data.country} ${resp.data.regionName} ${resp.data.city} ${resp.data.isp}`;
             })
@@ -61,13 +54,16 @@ let IP = {
             }
             let ip = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
             $$.getElementById('ip-webrtc').innerHTML = ip;
-            IP.parseIPCz88(ip, 'ip-webrtc-cz88');
+            IP.parseIPIpip(ip, 'ip-webrtc-cz88');
             pc.onicecandidate = noop;
         };
     },
     getIpipnetIP: () => {
-        IP.get('https://myip.ipip.net', 'text')
-            .then(resp => $$.getElementById('ip-ipipnet').innerHTML = resp.data);
+        IP.get(`https://myip.ipip.net/?z=${random}`, 'text')
+            .then((resp) => {
+                let data = resp.data.replace('当前 IP：', '').split(' 来自于：');
+                $$.getElementById('ip-ipipnet').innerHTML = `<p>${data[0]}</p><p class="sk-text-small">${data[1]}</p>`;
+            });
     },
     getTaobaoIP: (data) => {
         $$.getElementById('ip-taobao').innerHTML = data.ip;
@@ -75,20 +71,25 @@ let IP = {
     },
     getIpsbIP: (data) => {
         $$.getElementById('ip-ipsb').innerHTML = data.address;
-        $$.getElementById('ip-ipsb-geo').innerHTML = `${data.country} ${data.province} ${data.city} ${data.operator}`
+        $$.getElementById('ip-ipsb-geo').innerHTML = `${data.country} ${data.province} ${data.city} ${data.isp.name}`
     },
     getIpifyIP: () => {
-        IP.get('https://api.ipify.org/?format=json', 'json')
+        IP.get(`https://api.ipify.org/?format=json&z=${random}`, 'json')
             .then(resp => {
                 $$.getElementById('ip-ipify').innerHTML = resp.data.ip;
-                $$.getElementById('ip-ipify-1').innerHTML = resp.data.ip;
                 return resp.data.ip;
             })
             .then(ip => {
-                IP.parseIPCz88(ip, 'ip-ipify-cz88');
                 IP.parseIPIpip(ip, 'ip-ipify-ipip');
             })
     },
+    getIPApiIP: () => {
+        IP.get(`https://ipapi.co/json?z=${random}`, 'json')
+            .then(resp => {
+                $$.getElementById('ip-ipapi').innerHTML = resp.data.ip;
+                IP.parseIPIpip(resp.data.ip, 'ip-ipapi-geo');
+            })
+    }
 };
 
 window.ipCallback = (data) => IP.getTaobaoIP(data);
@@ -99,6 +100,8 @@ let HTTP = {
         let timeout = setTimeout(() => {
             img.onerror = img.onload = null;
             $$.getElementById(cbElID).innerHTML = '<span class="sk-text-error">连接超时</span>'
+            // Cancel the load
+            img.src = null;
         }, 6000);
 
         img.onerror = () => {
@@ -115,7 +118,7 @@ let HTTP = {
     },
     runcheck: () => {
         HTTP.checker('www.baidu.com', 'http-baidu');
-        HTTP.checker('www.163.com', 'http-163');
+        HTTP.checker('s1.music.126.net/style', 'http-163');
         HTTP.checker('github.com', 'http-github');
         HTTP.checker('www.youtube.com', 'http-youtube');
     }
@@ -123,5 +126,6 @@ let HTTP = {
 
 IP.getWebrtcIP();
 IP.getIpipnetIP();
+IP.getIPApiIP();
 IP.getIpifyIP();
 HTTP.runcheck();
